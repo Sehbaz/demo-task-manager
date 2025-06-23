@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Project, Task } from '../entities/entities';
 import { Repository } from 'typeorm';
-
+import { CreateTaskDto } from './task.dto';
 @Injectable()
 export class TaskService {
   constructor(
@@ -25,26 +25,44 @@ export class TaskService {
   }
 
   // create project
-  async create(id: number, task: Task): Promise<Task> {
-    console.log('id', id);
-    console.log('task', task);
+  async create(id: number, task: CreateTaskDto): Promise<Task> {
     const project = await this.projectRepository.findOne({
       where: { id: id },
     });
-    if (project) task.project = project;
+    if (project) (task as any).project = project;
     const newTask = this.taskService.create(task);
     return await this.taskService.save(newTask);
   }
 
-  // delete project
-  async delete(id: number): Promise<void> {
-    console.log('-------', id);
-    await this.taskService.delete(id);
-  }
+  // async create(
+  //   projectId: number,
+  //   taskDto: (typeof CreateTaskDto)['static'],
+  // ): Promise<Task> {
+  //   const project = await this.projectRepository.findOne({
+  //     where: { id: projectId },
+  //   });
+  //   if (!project) throw new Error('Project not found');
+
+  //   const newTask = this.taskService.create({ ...taskDto });
+  //   return await this.taskService.save(newTask);
+  // }
 
   // update project
   async update(id: number, task: Task): Promise<Task | null> {
     await this.taskService.update(id, task);
     return await this.taskService.findOne({ where: { id } });
+  }
+
+  // async update(
+  //   id: number,
+  //   taskDto: (typeof UpdateTaskDto)['statis'],
+  // ): Promise<Task | null> {
+  //   await this.taskService.update(id, { ...taskDto });
+  //   return await this.taskService.findOne({ where: { id } });
+  // }
+
+  // delete project
+  async delete(id: number): Promise<void> {
+    await this.taskService.delete(id);
   }
 }

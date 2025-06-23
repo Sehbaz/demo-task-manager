@@ -10,12 +10,17 @@ import {
 import { TaskService } from './task.service';
 import { Task } from '../entities/entities';
 
+import { CreateTaskDto, CreateTaskSchema, TaskSchema } from './task.dto';
+import { Type } from '@sinclair/typebox';
+import { Validate } from 'nestjs-typebox';
+
 @Controller('tasks')
 export class TaskController {
   constructor(private readonly taskService: TaskService) {}
 
   // get all project
   @Get()
+  @Validate({ response: Type.Array(TaskSchema) })
   async findAll(): Promise<Task[]> {
     return await this.taskService.findAll();
   }
@@ -32,9 +37,16 @@ export class TaskController {
   }
 
   // create project
-  @Post(':id')
-  async create(@Param('id') id: number, @Body() task: Task): Promise<Task> {
-    return await this.taskService.create(id, task);
+  @Post(':projectID')
+  @Validate({
+    request: [
+      { name: 'projectID', type: 'param', schema: Type.Number() },
+      { type: 'body', schema: CreateTaskSchema },
+    ],
+    response: TaskSchema,
+  })
+  async create(projectID: number, task: CreateTaskDto): Promise<Task> {
+    return await this.taskService.create(projectID, task);
   }
 
   // update project

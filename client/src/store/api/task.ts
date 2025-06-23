@@ -14,6 +14,7 @@ export const taskApi = api.injectEndpoints({
         method: "POST",
         body: {
           title: title,
+          projectId: projectId,
         },
       }),
       invalidatesTags: ["Projects"],
