@@ -163,7 +163,7 @@ function App() {
                       {project.tasks &&
                         project.tasks.map((task: any) => (
                           <li key={task.id}>
-                            {task.title}
+                            {task.name}
                             <button
                               onClick={() => deleteTask(task.id)}
                               style={{ marginLeft: "1rem" }}

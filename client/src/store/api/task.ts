@@ -13,7 +13,7 @@ export const taskApi = api.injectEndpoints({
         url: `/tasks/${projectId}`,
         method: "POST",
         body: {
-          title: title,
+          name: title,
           projectId: projectId,
         },
       }),

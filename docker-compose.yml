@@ -37,12 +37,13 @@ services:
       - DATABASE_PASSWORD=postgres
       - DATABASE_NAME=postgres
       - DATABASE_TYPE=postgres
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/postgres
     command: >
       sh -c "
         echo '🔁 Waiting for DB...' &&
         sleep 5 &&
-        bun run migration:run &&
-        bun run start:dev
+         bunx drizzle-kit migrate &&
+         bun run start:dev
       "
     depends_on:
       - db

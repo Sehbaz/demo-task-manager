@@ -1,39 +1,35 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { User } from '../entities/entities';
+import { eq } from 'drizzle-orm';
+import { db } from '../drizzle';
+import { users } from 'src/drizzle/schema';
+import { CreateUserDto } from './user.dto';
 
 @Injectable()
 export class UsersService {
-  constructor(
-    @InjectRepository(User)
-    private usersRepository: Repository<User>,
-  ) {}
-
-  // all users
-  async findAll(): Promise<User[]> {
-    return await this.usersRepository.find();
+  async findAll() {
+    return await db.select().from(users);
   }
 
-  // get user by id
-  async findOne(id: number): Promise<User | null> {
-    return await this.usersRepository.findOne({ where: { id } });
+  async findOne(id: number) {
+    const [user] = await db.select().from(users).where(eq(users.id, id));
+    return user;
   }
 
-  // create user
-  async create(user: User): Promise<User> {
-    const newUser = this.usersRepository.create(user);
-    return await this.usersRepository.save(newUser);
+  async create(user: CreateUserDto) {
+    const [newUser] = await db.insert(users).values(user).returning();
+    return newUser;
   }
 
-  // update user
-  async update(id: number, user: User): Promise<User | null> {
-    await this.usersRepository.update(id, user);
-    return await this.usersRepository.findOne({ where: { id } });
+  async update(id: number, user: CreateUserDto) {
+    const [updatedUser] = await db
+      .update(users)
+      .set(user)
+      .where(eq(users.id, id))
+      .returning();
+    return updatedUser;
   }
 
-  // delete user
-  async delete(id: number): Promise<void> {
-    await this.usersRepository.delete(id);
+  async delete(id: number) {
+    await db.delete(users).where(eq(users.id, id));
   }
 }

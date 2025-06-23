@@ -1,24 +1,17 @@
 import { Type, Static } from '@sinclair/typebox';
+import { BaseProjectSchema } from 'src/shared/base.dto';
 
-export const ProjectSchema = Type.Object({
+export const TaskSchema = Type.Object({
   id: Type.Number(),
-  name: Type.String(),
+  name: Type.String({ minLength: 1 }),
+  projectId: Type.Number(),
+  project: Type.Optional(BaseProjectSchema),
 });
 
 export const CreateTaskSchema = Type.Object({
-  title: Type.String({
-    minLength: 1,
-  }),
-  projectId: Type.Number(), // for creation, reference by id
+  name: Type.String({ minLength: 1 }),
+  projectId: Type.Number(),
 });
-
-export const TaskSchema = Type.Intersect([
-  Type.Object({ id: Type.Number() }),
-  Type.Object({
-    title: Type.String({ minLength: 1 }),
-    project: ProjectSchema, // full project object in response
-  }),
-]);
 
 export type Task = Static<typeof TaskSchema>;
 export type CreateTaskDto = Static<typeof CreateTaskSchema>;

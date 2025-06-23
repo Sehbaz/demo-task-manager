@@ -1,42 +1,57 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Project } from '../entities/entities';
-import { Repository } from 'typeorm';
+import { eq } from 'drizzle-orm';
+import { db } from '../drizzle';
+import { projects, tasks } from 'src/drizzle/schema';
+import { CreateProjectDto, Project } from './project.dto';
 
 @Injectable()
 export class ProjectService {
-  constructor(
-    @InjectRepository(Project)
-    private projectService: Repository<Project>,
-  ) {}
+  async findAll() {
+    const rows = await db
+      .select()
+      .from(projects)
+      .leftJoin(tasks, eq(tasks.projectId, projects.id));
 
-  // all project
-  async findAll(): Promise<Project[]> {
-    return await this.projectService.find({ relations: ['tasks'] });
+    // Group tasks by project
+    const projectMap = new Map<
+      number,
+      { id: number; name: string; tasks: any[] }
+    >();
+    for (const row of rows) {
+      const proj = row.projects;
+      if (!projectMap.has(proj.id)) {
+        projectMap.set(proj.id, { ...proj, tasks: [] });
+      }
+      if (row.tasks) {
+        projectMap.get(proj.id)!.tasks.push(row.tasks);
+      }
+    }
+    return Array.from(projectMap.values());
   }
 
-  // project by id
-  async findOne(id: number): Promise<Project | null> {
-    return await this.projectService.findOne({
-      where: { id },
-      relations: ['tasks'],
-    });
+  async findOne(id: number) {
+    const [project] = await db
+      .select()
+      .from(projects)
+      .where(eq(projects.id, id));
+    if (!project) return null;
   }
 
-  // create project
-  async create(project: Project): Promise<Project> {
-    const newProject = this.projectService.create(project);
-    return await this.projectService.save(newProject);
+  async create(project: CreateProjectDto) {
+    const [newProject] = await db.insert(projects).values(project).returning();
+    return newProject;
   }
 
-  // delete project
-  async delete(id: number): Promise<void> {
-    await this.projectService.delete(id);
+  async delete(id: number) {
+    await db.delete(projects).where(eq(projects.id, id));
   }
 
-  // update project
-  async update(id: number, project: Project): Promise<Project | null> {
-    await this.projectService.update(id, project);
-    return await this.projectService.findOne({ where: { id } });
+  async update(id: number, project: CreateProjectDto) {
+    const [udpatedProject] = await db
+      .update(projects)
+      .set(project)
+      .where(eq(projects.id, id))
+      .returning();
+    return udpatedProject ?? null;
   }
 }
