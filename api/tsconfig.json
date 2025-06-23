@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "ES2023",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "noFallthroughCasesInSwitch": false
+  },
+  "scripts": {
+    "start": "bun run src/main.ts",
+    "start:dev": "bun run src/main.ts --watch --hot",
+    "start:prod": "bun run dist/main.js",
+    "build": "nest build",
+    "typeorm": "bunx typeorm-ts-node-commonjs",
+    "migration:generate": "bun run typeorm migration:generate src/migrations/AutoMigration --dataSource src/data-source.ts",
+    "migration:run": "bun run typeorm migration:run --dataSource src/data-source.ts"
+  }
+}
