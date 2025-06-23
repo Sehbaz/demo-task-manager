@@ -10,6 +10,7 @@
         "@nestjs/jwt": "^11.0.0",
         "@nestjs/passport": "^11.0.5",
         "@nestjs/platform-express": "^11.0.1",
+        "@nestjs/swagger": "^11.2.0",
         "@sinclair/typebox": "^0.34.36",
         "bcrypt": "^6.0.0",
         "dotenv": "^16.5.0",
@@ -21,6 +22,7 @@
         "postgres": "^3.4.7",
         "reflect-metadata": "^0.2.2",
         "rxjs": "^7.8.1",
+        "swagger-ui-express": "^5.0.1",
       },
       "devDependencies": {
         "@eslint/eslintrc": "^3.2.0",
@@ -1498,6 +1500,8 @@
     "supports-preserve-symlinks-flag": ["supports-preserve-symlinks-flag@1.0.0", "", {}, "sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w=="],
 
     "swagger-ui-dist": ["swagger-ui-dist@5.21.0", "", { "dependencies": { "@scarf/scarf": "=1.4.0" } }, "sha512-E0K3AB6HvQd8yQNSMR7eE5bk+323AUxjtCz/4ZNKiahOlPhPJxqn3UPIGs00cyY/dhrTDJ61L7C/a8u6zhGrZg=="],
+
+    "swagger-ui-express": ["swagger-ui-express@5.0.1", "", { "dependencies": { "swagger-ui-dist": ">=5.0.0" }, "peerDependencies": { "express": ">=4.0.0 || >=5.0.0-beta" } }, "sha512-SrNU3RiBGTLLmFU8GIJdOdanJTl4TOmT27tt3bWWHppqYmAZ6IDuEuBvMU6nZq0zLEe6b/1rACXCgLZqO6ZfrA=="],
 
     "symbol-observable": ["symbol-observable@4.0.0", "", {}, "sha512-b19dMThMV4HVFynSAM1++gBHAbk2Tc/osgLIBZMKsyqh34jb2e8Os7T6ZW/Bt3pJFdBTd2JwAnAAEQV7rSNvcQ=="],
 

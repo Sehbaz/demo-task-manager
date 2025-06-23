@@ -13,12 +13,17 @@ import { CreateTaskDto, CreateTaskSchema, Task, TaskSchema } from './task.dto';
 import { Type } from '@sinclair/typebox';
 import { Validate } from 'nestjs-typebox';
 
+import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+
 @Controller('tasks')
+@ApiTags('Tasks')
 export class TaskController {
   constructor(private readonly taskService: TaskService) {}
 
   @Get()
   @Validate({ response: Type.Array(TaskSchema) })
+  @ApiOperation({ summary: 'Get all the tasks' })
+  @ApiResponse({ status: 200, description: 'all tasks found' })
   async findAll(): Promise<Task[]> {
     return await this.taskService.findAll();
   }
