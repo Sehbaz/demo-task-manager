@@ -30,11 +30,25 @@ export class ProjectService {
   }
 
   async findOne(id: number) {
+    console.log('-----------------------', id);
     const [project] = await db
       .select()
       .from(projects)
       .where(eq(projects.id, id));
+    console.log('===>', project);
     if (!project) return null;
+
+    // Fetch tasks for this project
+    const projectTasks = await db
+      .select()
+      .from(tasks)
+      .where(eq(tasks.projectId, id));
+
+    // Return project with its tasks
+    return {
+      ...project,
+      tasks: projectTasks,
+    };
   }
 
   async create(project: CreateProjectDto) {

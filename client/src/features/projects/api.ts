@@ -5,6 +5,11 @@ export const fetchProjects = async () => {
   return res.data;
 };
 
+export const fetchProjectById = async (id: string) => {
+  const res = await axiosInstance.get(`/projects/${id}`);
+  return res.data;
+};
+
 export const createProject = async (data: { name: string }) => {
   const res = await axiosInstance.post("/projects", data);
   return res.data;

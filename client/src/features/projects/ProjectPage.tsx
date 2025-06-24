@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useCreateProject, useDeleteProject, useProjects } from "./hook";
 import { Task } from "../task/Task";
 import { useCreateTasks } from "../task/hook";
+import { Link } from "react-router-dom";
 
 export function ProjectPage() {
   const [newProjectTitle, setNewProjectTitle] = useState("");
@@ -51,7 +52,9 @@ export function ProjectPage() {
             }}
           >
             <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <h3>{project.name}</h3>
+              <h3>
+                <Link to={`/projects/${project.id}`}>{project.name}</Link>
+              </h3>
               <button onClick={() => deleteProject.mutate(project.id)}>
                 🗑
               </button>
