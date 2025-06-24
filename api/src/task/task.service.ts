@@ -6,19 +6,29 @@ import { db } from '../drizzle';
 import { projects, tasks } from 'src/drizzle/schema';
 @Injectable()
 export class TaskService {
+  cleanTask(task: any) {
+    return {
+      ...task,
+      description: task.description ?? undefined,
+      status: task.status ?? undefined,
+      priority: task.priority ?? undefined,
+    };
+  }
+
   async findAll() {
-    return await db.select().from(tasks);
+    const allTask = await db.select().from(tasks);
+    return allTask.map(this.cleanTask);
   }
 
   async findOne(id: number) {
     const [task] = await db.select().from(tasks).where(eq(tasks.id, id));
 
-    return task;
+    return task ? this.cleanTask(task) : null;
   }
 
   async create(id: number, task: CreateTaskDto) {
     const [newTask] = await db.insert(tasks).values(task).returning();
-    return newTask;
+    return newTask ? this.cleanTask(newTask) : null;
   }
 
   async update(id: number, task: CreateTaskDto) {
@@ -27,7 +37,7 @@ export class TaskService {
       .set(task)
       .where(eq(tasks.id, id))
       .returning();
-    return updatedTask;
+    return updatedTask ? this.cleanTask(updatedTask) : null;
   }
 
   async delete(id: number) {

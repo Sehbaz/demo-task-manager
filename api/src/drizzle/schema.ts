@@ -2,7 +2,10 @@ import { pgTable, serial, varchar, integer } from 'drizzle-orm/pg-core';
 
 export const tasks = pgTable('tasks', {
   id: serial('id').primaryKey(),
-  name: varchar('name', { length: 255 }).notNull(),
+  title: varchar('name', { length: 255 }).notNull(),
+  description: varchar('description', { length: 1024 }),
+  status: varchar('status', { length: 32 }).default('todo'),
+  priority: varchar('priority', { length: 16 }).default('medium'),
   projectId: integer('project_id')
     .notNull()
     .references(() => projects.id),
@@ -10,7 +13,7 @@ export const tasks = pgTable('tasks', {
 
 export const projects = pgTable('projects', {
   id: serial('id').primaryKey(),
-  name: varchar('name', { length: 255 }).notNull(),
+  title: varchar('name', { length: 255 }).notNull(),
 });
 
 export const users = pgTable('users', {

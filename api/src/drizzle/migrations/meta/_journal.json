@@ -8,6 +8,13 @@
       "when": 1750711834305,
       "tag": "0000_slow_scrambler",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1750796512511,
+      "tag": "0001_last_captain_marvel",
+      "breakpoints": true
     }
   ]
 }

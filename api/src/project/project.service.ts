@@ -15,12 +15,12 @@ export class ProjectService {
     // Group tasks by project
     const projectMap = new Map<
       number,
-      { id: number; name: string; tasks: any[] }
+      { id: number; title: string; tasks: any[] }
     >();
     for (const row of rows) {
       const proj = row.projects;
       if (!projectMap.has(proj.id)) {
-        projectMap.set(proj.id, { ...proj, tasks: [] });
+        projectMap.set(proj.id, { id: proj.id, title: proj.title, tasks: [] });
       }
       if (row.tasks) {
         projectMap.get(proj.id)!.tasks.push(row.tasks);
@@ -30,12 +30,10 @@ export class ProjectService {
   }
 
   async findOne(id: number) {
-    console.log('-----------------------', id);
     const [project] = await db
       .select()
       .from(projects)
       .where(eq(projects.id, id));
-    console.log('===>', project);
     if (!project) return null;
 
     // Fetch tasks for this project

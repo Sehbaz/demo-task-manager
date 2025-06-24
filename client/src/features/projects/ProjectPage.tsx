@@ -4,6 +4,7 @@ import { useCreateProject, useDeleteProject, useProjects } from "./hook";
 import { Task } from "../task/Task";
 import { useCreateTasks } from "../task/hook";
 import { Link } from "react-router-dom";
+import { TaskForm } from "../task/TaskForm";
 
 export function ProjectPage() {
   const [newProjectTitle, setNewProjectTitle] = useState("");
@@ -53,41 +54,14 @@ export function ProjectPage() {
           >
             <div style={{ display: "flex", justifyContent: "space-between" }}>
               <h3>
-                <Link to={`/projects/${project.id}`}>{project.name}</Link>
+                <Link to={`/projects/${project.id}`}>{project.title}</Link>
               </h3>
               <button onClick={() => deleteProject.mutate(project.id)}>
                 🗑
               </button>
             </div>
 
-            <input
-              placeholder="New task"
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  const input = e.target as HTMLInputElement;
-                  createTask.mutate({
-                    projectId: project.id,
-                    name: input.value,
-                  });
-                  input.value = "";
-                }
-              }}
-            />
-
-            {/* <ul>
-              {project.tasks?.map((task: any) => (
-                <li key={task.id}>
-                  {task.title}
-                  <button
-                    //  onClick={() => deleteTask(task.id)}
-                    style={{ marginLeft: "1rem" }}
-                  >
-                    ❌
-                  </button>
-                </li>
-              ))}
-            </ul> */}
-            <Task tasks={project.tasks} />
+            {/* <Task tasks={project.tasks} /> */}
           </div>
         ))}
       </div>

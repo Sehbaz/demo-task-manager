@@ -2,12 +2,12 @@ import { Type, Static } from '@sinclair/typebox';
 
 export const BaseProjectSchema = Type.Object({
   id: Type.Number(),
-  name: Type.String(),
+  title: Type.String(),
 });
 
 export const BaseTaskSchema = Type.Object({
   id: Type.Number(),
-  name: Type.String(),
+  title: Type.String(),
   projectId: Type.Number(),
 });
 

@@ -5,7 +5,18 @@ export const fetchTasks = async (id: string) => {
   return res;
 };
 
-export const createTask = async (data: { name: string; projectId: string }) => {
+export const createTask = async (data: {
+  title: string;
+  description: string;
+  status: string;
+  priority: string;
+  projectId: number;
+}) => {
   const res = await axiosInstance.post(`/tasks/${data.projectId}`, data);
+  return res.data;
+};
+
+export const deleteTask = async (id: string | number) => {
+  const res = await axiosInstance.delete(`/tasks/${id}`);
   return res.data;
 };

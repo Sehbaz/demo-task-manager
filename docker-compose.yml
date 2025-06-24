@@ -42,8 +42,9 @@ services:
       sh -c "
         echo '🔁 Waiting for DB...' &&
         sleep 5 &&
-         bunx drizzle-kit migrate &&
-         bun run start:dev
+        bunx drizzle-kit generate &&
+        bunx drizzle-kit migrate &&
+        bun run start:dev
       "
     depends_on:
       - db
