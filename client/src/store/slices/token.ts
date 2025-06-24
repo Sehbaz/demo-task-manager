@@ -1,7 +1,9 @@
-let getToken: () => Promise<string | undefined> = async () => undefined;
+let tokenGetter = () =>
+  Promise.resolve(localStorage.getItem("jwt_token") || "");
 
 export const token = {
-  getToken: () => getToken(), // <-- Call the function, not return it
-  setTokenGetter: (func: () => Promise<string | undefined>) =>
-    (getToken = func),
+  getToken: () => tokenGetter(),
+  setTokenGetter: (fn: () => Promise<string>) => {
+    tokenGetter = fn;
+  },
 };
