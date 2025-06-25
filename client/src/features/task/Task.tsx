@@ -9,19 +9,6 @@ export function Task({ tasks }: { tasks: any[] }) {
     <>
       <h1>sehbaz</h1>
       <TaskForm projectId={id ? parseInt(id) : 0} />
-      <ul>
-        {tasks?.map((task: any) => (
-          <li key={task.id}>
-            {task.title || task.name}
-            <button
-              // onClick={() => deleteTask(task.id)}
-              style={{ marginLeft: "1rem" }}
-            >
-              ❌
-            </button>
-          </li>
-        ))}
-      </ul>
     </>
   );
 }

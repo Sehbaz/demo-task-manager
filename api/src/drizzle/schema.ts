@@ -8,12 +8,15 @@ export const tasks = pgTable('tasks', {
   priority: varchar('priority', { length: 16 }).default('medium'),
   projectId: integer('project_id')
     .notNull()
-    .references(() => projects.id),
+    .references(() => projects.id, {
+      onDelete: 'cascade',
+    }),
 });
 
 export const projects = pgTable('projects', {
   id: serial('id').primaryKey(),
-  title: varchar('name', { length: 255 }).notNull(),
+  title: varchar('title', { length: 255 }).notNull(),
+  description: varchar('description', { length: 255 }),
 });
 
 export const users = pgTable('users', {

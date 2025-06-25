@@ -4,6 +4,7 @@ import {
   deleteProject,
   fetchProjects,
   fetchProjectById,
+  updateProject,
 } from "./api";
 
 export const useProjects = () =>
@@ -24,6 +25,14 @@ export const useCreateProject = () => {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: createProject,
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["projects"] }),
+  });
+};
+
+export const useUpdateProject = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: updateProject,
     onSuccess: () => qc.invalidateQueries({ queryKey: ["projects"] }),
   });
 };

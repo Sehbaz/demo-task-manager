@@ -6,10 +6,6 @@ import {
   Text,
   Loader,
   Alert,
-  Card,
-  Group,
-  Badge,
-  Stack,
   Button,
   Flex,
   Tooltip,
@@ -42,21 +38,24 @@ export function ProjectDetailPage() {
     () => [
       { accessorKey: "title", header: "title" },
       { accessorKey: "description", header: "Description" },
+      { accessorKey: "status", header: "statys" },
+      { accessorKey: "priority", header: "priority" },
     ],
     []
   );
-
   if (isLoading) {
     return (
-      <Container>
-        <Loader />
+      <Container size="xl" style={{ minHeight: "60vh" }}>
+        <Flex justify="center" align="center" style={{ minHeight: "60vh" }}>
+          <Loader size="lg" />
+        </Flex>
       </Container>
     );
   }
 
   if (error || !project) {
     return (
-      <Container>
+      <Container size="xl" style={{ minHeight: "60vh" }}>
         <Alert color="red" title="Error">
           Project not found
         </Alert>
@@ -82,7 +81,7 @@ export function ProjectDetailPage() {
     });
 
   return (
-    <Container size="sm" py="xl">
+    <Container size="xl" py="xl">
       <Button
         component={Link}
         to="/projects"
@@ -95,15 +94,12 @@ export function ProjectDetailPage() {
       <Title order={2} mb="xs">
         {project.title}
       </Title>
-      <TaskForm projectId={id ? parseInt(id) : 0} />
       {project.description && (
         <Text c="dimmed" mb="md">
           {project.description}
         </Text>
       )}
-      <Title order={4} mt="lg" mb="sm">
-        Tasks
-      </Title>
+      <TaskForm projectId={id ? parseInt(id) : 0} />
 
       <MantineReactTable
         autoResetPageIndex={false}
@@ -113,6 +109,7 @@ export function ProjectDetailPage() {
         enableRowActions // <-- Add this line!
         positionActionsColumn="last"
         enableSorting={false}
+        enableTopToolbar={false}
         renderRowActions={({ row, table }) => (
           <Flex gap="md">
             <Tooltip label="Edit">
@@ -153,6 +150,7 @@ export function ProjectDetailPage() {
             console.log("howered row", hoveredRow);
           },
         })}
+        paginationDisplayMode="pages" // or "default"
       />
     </Container>
   );

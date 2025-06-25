@@ -6,6 +6,14 @@ import { CreateProjectDto, Project } from './project.dto';
 
 @Injectable()
 export class ProjectService {
+  normalizeProject(project: any | null): Project | null {
+    if (!project) return null;
+    return {
+      ...project,
+      description: project.description ?? '',
+    };
+  }
+
   async findAll() {
     const rows = await db
       .select()
@@ -15,12 +23,17 @@ export class ProjectService {
     // Group tasks by project
     const projectMap = new Map<
       number,
-      { id: number; title: string; tasks: any[] }
+      { id: number; title: string; description: string; tasks: any[] }
     >();
     for (const row of rows) {
       const proj = row.projects;
       if (!projectMap.has(proj.id)) {
-        projectMap.set(proj.id, { id: proj.id, title: proj.title, tasks: [] });
+        projectMap.set(proj.id, {
+          id: proj.id,
+          title: proj.title,
+          description: proj.description ?? '',
+          tasks: [],
+        });
       }
       if (row.tasks) {
         projectMap.get(proj.id)!.tasks.push(row.tasks);
@@ -36,22 +49,20 @@ export class ProjectService {
       .where(eq(projects.id, id));
     if (!project) return null;
 
-    // Fetch tasks for this project
     const projectTasks = await db
       .select()
       .from(tasks)
       .where(eq(tasks.projectId, id));
 
-    // Return project with its tasks
-    return {
+    return this.normalizeProject({
       ...project,
       tasks: projectTasks,
-    };
+    });
   }
 
   async create(project: CreateProjectDto) {
     const [newProject] = await db.insert(projects).values(project).returning();
-    return newProject;
+    return this.normalizeProject(newProject);
   }
 
   async delete(id: number) {
@@ -64,6 +75,6 @@ export class ProjectService {
       .set(project)
       .where(eq(projects.id, id))
       .returning();
-    return udpatedProject ?? null;
+    return this.normalizeProject(udpatedProject);
   }
 }
