@@ -7,7 +7,8 @@ export default defineConfig({
   dialect: 'postgresql',
   dbCredentials: {
     url: process.env.DATABASE_URL! as string,
-    //  url: 'postgresql://postgres:postgres@localhost:5432/postgres',
+    // NOTE:  If you want to run migrations outside the Docker container, uncomment the line below and comment the line above.
+    //url: 'postgresql://postgres:postgres@ localhost:5432/postgres',
   },
   verbose: true,
   strict: true,
