@@ -18,7 +18,7 @@ import { useEffect, useMemo, useState } from "react";
 import { TaskForm } from "@/features/task/components/TaskForm";
 
 import { modals } from "@mantine/modals";
-import { useDeleteTask } from "@/features/task/hooks/task.hook";
+import { useDeleteTask, useTasks } from "@/features/task/hooks/task.hook";
 
 export const ProjectDetailPage = () => {
   // state
@@ -27,14 +27,14 @@ export const ProjectDetailPage = () => {
   // hooks
   const { id } = useParams();
   const deleteTask = useDeleteTask();
-  const { data: project, isLoading, error } = useProject(id ? parseInt(id) : 0);
+  const projectId = id ? parseInt(id) : 0;
+  const { data: project } = useProject(projectId);
+  const { data: tasks } = useTasks(projectId);
 
   // effects
   useEffect(() => {
-    if (project?.tasks) {
-      setData(project.tasks);
-    }
-  }, [project?.tasks]);
+    if (tasks) setData(tasks);
+  }, [tasks]);
 
   const columns = useMemo(
     () => [
@@ -45,25 +45,25 @@ export const ProjectDetailPage = () => {
     ],
     []
   );
-  if (isLoading) {
-    return (
-      <Container size="xl" style={{ minHeight: "60vh" }}>
-        <Flex justify="center" align="center" style={{ minHeight: "60vh" }}>
-          <Loader size="lg" />
-        </Flex>
-      </Container>
-    );
-  }
+  // if (isLoading) {
+  //   return (
+  //     <Container size="xl" style={{ minHeight: "60vh" }}>
+  //       <Flex justify="center" align="center" style={{ minHeight: "60vh" }}>
+  //         <Loader size="lg" />
+  //       </Flex>
+  //     </Container>
+  //   );
+  // }
 
-  if (error || !project) {
-    return (
-      <Container size="xl" style={{ minHeight: "60vh" }}>
-        <Alert color="red" title="Error">
-          Project not found
-        </Alert>
-      </Container>
-    );
-  }
+  // if (error || !project) {
+  //   return (
+  //     <Container size="xl" style={{ minHeight: "60vh" }}>
+  //       <Alert color="red" title="Error">
+  //         Project not found
+  //       </Alert>
+  //     </Container>
+  //   );
+  // }
 
   //DELETE action
   const openDeleteConfirmModal = (row: any) =>
@@ -80,7 +80,7 @@ export const ProjectDetailPage = () => {
       onConfirm: () => {
         deleteTask.mutate({
           id: row.original.id,
-          projectId: project.id,
+          projectId: projectId,
         });
       },
     });
@@ -97,13 +97,11 @@ export const ProjectDetailPage = () => {
         Back to Projects
       </Button>
       <Title order={2} mb="xs">
-        {project.title}
+        {project?.title}
       </Title>
-      {project.description && (
-        <Text c="dimmed" mb="md">
-          {project.description}
-        </Text>
-      )}
+      <Text c="dimmed" mb="md">
+        {project?.description}
+      </Text>
       <TaskForm projectId={id ? parseInt(id) : 0} />
 
       <MantineReactTable
@@ -111,7 +109,7 @@ export const ProjectDetailPage = () => {
         columns={columns}
         data={data}
         enableRowOrdering
-        enableRowActions // <-- Add this line!
+        enableRowActions
         positionActionsColumn="last"
         enableSorting={false}
         enableTopToolbar={false}
@@ -155,7 +153,7 @@ export const ProjectDetailPage = () => {
             console.log("howered row", hoveredRow);
           },
         })}
-        paginationDisplayMode="pages" // or "default"
+        paginationDisplayMode="pages"
       />
     </Container>
   );

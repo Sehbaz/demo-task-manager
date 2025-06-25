@@ -5,13 +5,15 @@ import { axiosInstance } from "@/lib/axios";
 import type { Task, TaskCreateDto } from "@/models/task";
 
 export const fetchTasks = async (projectId: number): Promise<Task[]> => {
-  const { data } = await axiosInstance.get<Task[]>(`/tasks/${projectId}`);
+  const { data } = await axiosInstance.get<Task[]>(
+    `/tasks/project/${projectId}`
+  );
   return data;
 };
 
 export const createTask = async (task: TaskCreateDto): Promise<Task> => {
   const { data } = await axiosInstance.post<Task>(
-    `/tasks/${task.projectId}`,
+    `/tasks/project/${task.projectId}`,
     task
   );
   return data;

@@ -1,5 +1,4 @@
 import { Type, Static } from '@sinclair/typebox';
-import { BaseProjectSchema } from 'src/shared/base.dto';
 
 export const TaskSchema = Type.Object({
   id: Type.Number(),
@@ -16,7 +15,6 @@ export const TaskSchema = Type.Object({
     Type.Literal('high'),
   ]),
   projectId: Type.Number(),
-  project: Type.Optional(BaseProjectSchema),
 });
 
 export const CreateTaskSchema = Type.Object({
