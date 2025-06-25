@@ -32,18 +32,3 @@ export const login = async (data: LoginRequest): Promise<LoginResponse> => {
 export const logout = (): void => {
   removeToken();
 };
-
-export const getCurrentUser = async (): Promise<User | null> => {
-  const token = getToken();
-  if (!token) return null;
-
-  try {
-    const res = await axiosInstance.get<User>("/auth/me", {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    return res.data;
-  } catch (error) {
-    removeToken();
-    return null;
-  }
-};

@@ -1,22 +1,24 @@
 import { Module } from '@nestjs/common';
+import { JwtModule } from '@nestjs/jwt';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
-import { JwtModule } from '@nestjs/jwt';
-import { PassportModule } from '@nestjs/passport';
-import { JwtStrategey } from './jwt.strategy';
+import { DrizzleAuthRepository } from './auth.repository.impl';
 
 @Module({
   imports: [
-    PassportModule,
     JwtModule.register({
-      secret: 'supersecret',
-      signOptions: {
-        expiresIn: '3000m',
-      },
+      secret: process.env.JWT_SECRET || 'changeme',
+      signOptions: { expiresIn: '7d' },
     }),
   ],
-  providers: [AuthService, JwtStrategey],
   controllers: [AuthController],
+  providers: [
+    AuthService,
+    {
+      provide: 'AuthRepository',
+      useClass: DrizzleAuthRepository,
+    },
+  ],
   exports: [AuthService],
 })
 export class AuthModule {}

@@ -6,7 +6,7 @@ import type { UseMutationOptions } from "@tanstack/react-query";
 import type { LoginRequest, LoginResponse, User } from "@/models/auth";
 
 // api
-import { getCurrentUser, login, logout } from "@/features/login/api/login.api";
+import { login, logout } from "@/features/login/api/login.api";
 
 // axios
 import type { AxiosError } from "axios";
@@ -33,8 +33,8 @@ export const useLogout = () => {
   };
 };
 
-export const useCurrentUser = () =>
-  useQuery<User | null>({
-    queryKey: ["me"],
-    queryFn: getCurrentUser,
-  });
+// export const useCurrentUser = () =>
+//   useQuery<User | null>({
+//     queryKey: ["me"],
+//     queryFn: getCurrentUser,
+//   });

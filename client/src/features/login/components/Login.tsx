@@ -66,14 +66,14 @@ export const Login = () => {
 
   // methods
   const handleLogin = useCallback(
-    (values: LoginRequest) => {
+    async (values: LoginRequest) => {
       setLoading(true);
-      loginMutation.mutate({
-        email: values.email,
-        password: values.password,
-      });
+      const response = await loginMutation.mutateAsync(values);
+      localStorage.setItem("access_token", response.access_token);
+      setLoading(false);
+      navigate("/projects");
     },
-    [loginMutation]
+    [loginMutation, navigate]
   );
 
   return (
