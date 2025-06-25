@@ -1,80 +1,35 @@
-import { Injectable } from '@nestjs/common';
-import { eq } from 'drizzle-orm';
-import { db } from '../../drizzle';
-import { projects, tasks } from 'src/drizzle/schema';
-import { CreateProjectDto, Project } from './project.dto';
+import { Injectable, Inject, NotFoundException } from '@nestjs/common';
+import { ProjectRepository } from './project.repository';
+import { Project, CreateProjectDto } from './project.dto';
 
 @Injectable()
 export class ProjectService {
-  normalizeProject(project: any | null): Project | null {
-    if (!project) return null;
-    return {
-      ...project,
-      description: project.description ?? '',
-    };
+  constructor(
+    @Inject('ProjectRepository')
+    private readonly projectRepo: ProjectRepository,
+  ) {}
+
+  findAll(): Promise<Project[]> {
+    return this.projectRepo.findAll();
   }
 
-  async findAll() {
-    const rows = await db
-      .select()
-      .from(projects)
-      .leftJoin(tasks, eq(tasks.projectId, projects.id));
-
-    // Group tasks by project
-    const projectMap = new Map<
-      number,
-      { id: number; title: string; description: string; tasks: any[] }
-    >();
-    for (const row of rows) {
-      const proj = row.projects;
-      if (!projectMap.has(proj.id)) {
-        projectMap.set(proj.id, {
-          id: proj.id,
-          title: proj.title,
-          description: proj.description ?? '',
-          tasks: [],
-        });
-      }
-      if (row.tasks) {
-        projectMap.get(proj.id)!.tasks.push(row.tasks);
-      }
-    }
-    return Array.from(projectMap.values());
+  async findOne(id: number): Promise<Project> {
+    const project = await this.projectRepo.findOne(id);
+    if (!project) throw new NotFoundException('Project not found');
+    return project;
   }
 
-  async findOne(id: number) {
-    const [project] = await db
-      .select()
-      .from(projects)
-      .where(eq(projects.id, id));
-    if (!project) return null;
-
-    const projectTasks = await db
-      .select()
-      .from(tasks)
-      .where(eq(tasks.projectId, id));
-
-    return this.normalizeProject({
-      ...project,
-      tasks: projectTasks,
-    });
+  create(dto: CreateProjectDto): Promise<Project> {
+    return this.projectRepo.create(dto);
   }
 
-  async create(project: CreateProjectDto) {
-    const [newProject] = await db.insert(projects).values(project).returning();
-    return this.normalizeProject(newProject);
+  async update(id: number, dto: CreateProjectDto): Promise<Project> {
+    const updated = await this.projectRepo.update(id, dto);
+    if (!updated) throw new NotFoundException('Project not found');
+    return updated;
   }
 
-  async delete(id: number) {
-    await db.delete(projects).where(eq(projects.id, id));
-  }
-
-  async update(id: number, project: CreateProjectDto) {
-    const [udpatedProject] = await db
-      .update(projects)
-      .set(project)
-      .where(eq(projects.id, id))
-      .returning();
-    return this.normalizeProject(udpatedProject);
+  async delete(id: number): Promise<void> {
+    await this.projectRepo.delete(id);
   }
 }

@@ -1,16 +1,17 @@
 import { Module } from '@nestjs/common';
-import { ProjectController } from './project.controller';
 import { ProjectService } from './project.service';
-import db from 'src/drizzle';
+import { ProjectController } from './project.controller';
+import { DrizzleProjectRepository } from './project.repository.impl';
 
 @Module({
   controllers: [ProjectController],
   providers: [
     ProjectService,
     {
-      provide: 'DRIZZLE_DB',
-      useValue: db,
+      provide: 'ProjectRepository',
+      useClass: DrizzleProjectRepository,
     },
   ],
+  exports: [ProjectService],
 })
 export class ProjectModule {}
