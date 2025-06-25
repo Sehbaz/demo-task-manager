@@ -4,8 +4,6 @@ import type { InternalAxiosRequestConfig } from "axios";
 
 const BASE_URL = "http://localhost:3000";
 
-console.log(BASE_URL);
-
 // create axios instance
 export const axiosInstance = axios.create({
   baseURL: BASE_URL,
