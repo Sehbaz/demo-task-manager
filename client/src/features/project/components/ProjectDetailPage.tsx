@@ -1,5 +1,6 @@
+// react
 import { Link, useParams } from "react-router-dom";
-import { useProject } from "./hook";
+import { useProject } from "@/features/project/hooks/project.hook";
 import {
   Container,
   Title,
@@ -14,20 +15,21 @@ import {
 import { MantineReactTable } from "mantine-react-table";
 import { IconArrowLeft, IconEdit, IconTrash } from "@tabler/icons-react";
 import { useEffect, useMemo, useState } from "react";
-import { TaskForm } from "../task/TaskForm";
+import { TaskForm } from "@/features/task/components/TaskForm";
 
 import { modals } from "@mantine/modals";
-import { useDeleteTasks } from "../task/hook";
+import { useDeleteTask } from "@/features/task/hooks/task.hook";
 
-export function ProjectDetailPage() {
-  const { id } = useParams();
-  const { data: project, isLoading, error } = useProject(id!);
-
-  // Always call hooks at the top level!
-  const deleteTask = useDeleteTasks();
-
+export const ProjectDetailPage = () => {
+  // state
   const [data, setData] = useState<any[]>([]);
 
+  // hooks
+  const { id } = useParams();
+  const deleteTask = useDeleteTask();
+  const { data: project, isLoading, error } = useProject(id ? parseInt(id) : 0);
+
+  // effects
   useEffect(() => {
     if (project?.tasks) {
       setData(project.tasks);
@@ -76,7 +78,10 @@ export function ProjectDetailPage() {
       labels: { confirm: "Delete", cancel: "Cancel" },
       confirmProps: { color: "red" },
       onConfirm: () => {
-        deleteTask.mutate({ id: row.original.id, projectId: project.id });
+        deleteTask.mutate({
+          id: row.original.id,
+          projectId: project.id,
+        });
       },
     });
 
@@ -154,4 +159,6 @@ export function ProjectDetailPage() {
       />
     </Container>
   );
-}
+};
+
+export default ProjectDetailPage;

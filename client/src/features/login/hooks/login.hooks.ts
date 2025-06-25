@@ -3,7 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 // types
 import type { UseMutationOptions } from "@tanstack/react-query";
-import type { LoginRequest, LoginResponse, User } from "@/types/auth";
+import type { LoginRequest, LoginResponse, User } from "@/models/auth";
 
 // api
 import { getCurrentUser, login, logout } from "@/features/login/api/login.api";

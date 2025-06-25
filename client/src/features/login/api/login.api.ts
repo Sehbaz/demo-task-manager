@@ -1,8 +1,8 @@
 // axios
 import { axiosInstance } from "@/lib/axios";
 
-// types
-import type { LoginRequest, LoginResponse, User } from "@/types/auth";
+// models
+import type { LoginRequest, LoginResponse, User } from "@/models/auth";
 
 const TOKEN_KEY = "token";
 
@@ -18,6 +18,7 @@ export const removeToken = (): void => {
   localStorage.removeItem(TOKEN_KEY);
 };
 
+// hooks
 export const login = async (data: LoginRequest): Promise<LoginResponse> => {
   try {
     const res = await axiosInstance.post<LoginResponse>("/auth/login", data);

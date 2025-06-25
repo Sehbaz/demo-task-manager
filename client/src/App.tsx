@@ -5,9 +5,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ProtectedRoute } from "@/routes/ProtectedRoute";
 
 // features
-import { Login } from "@/features/login/Login";
-import { ProjectPage } from "@/features/projects/ProjectPage";
-import { ProjectDetailPage } from "@/features/projects/ProjectDetailsPage";
+import { Login } from "@/features/login/components/Login";
+import { ProjectsPage } from "@/features/project/components/ProjectsPage";
+import { ProjectDetailPage } from "@/features/project/components/ProjectDetailPage";
 
 const App = () => {
   return (
@@ -15,7 +15,7 @@ const App = () => {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route element={<ProtectedRoute />}>
-          <Route path="/projects" element={<ProjectPage />} />
+          <Route path="/projects" element={<ProjectsPage />} />
           <Route path="/project/:id" element={<ProjectDetailPage />} />
         </Route>
         <Route path="*" element={<Login />} />

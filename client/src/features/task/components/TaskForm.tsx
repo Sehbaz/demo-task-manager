@@ -1,44 +1,56 @@
-// Example: TaskForm.tsx
-import { Select, TextInput, Textarea, Button, Modal } from "@mantine/core";
+// react
 import { useState } from "react";
-import { useCreateTasks } from "./hook";
+
+// mantine
+import { Select, TextInput, Textarea, Button, Modal } from "@mantine/core";
+
+// hooks
 import { useDisclosure } from "@mantine/hooks";
+import { useCreateTask } from "@/features/task/hooks/task.hook";
+
+// models
+import type { TaskCreateDto } from "@/models/task";
 
 interface TaskFormProps {
-  projectId: number; // or number, depending on your data model
+  projectId: number;
 }
 
-export function TaskForm({ projectId }: TaskFormProps) {
-  // ...state for title, description, status, priority
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [status, setStatus] = useState("todo");
+export const TaskForm = ({ projectId }: TaskFormProps) => {
+  // states
   const [opened, { open, close }] = useDisclosure(false);
+  const [form, setForm] = useState<Omit<TaskCreateDto, "projectId">>({
+    title: "",
+    description: "",
+    status: "todo",
+    priority: "low",
+  });
 
-  const [priority, setPriority] = useState("low");
-
-  const createTask = useCreateTasks();
+  // hooks
+  const createTask = useCreateTask();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     createTask.mutate(
-      {
-        title: title,
-        description: description,
-        status: status,
-        priority: priority,
-        projectId: projectId,
-      },
+      { ...form, projectId },
       {
         onSettled: () => {
-          setTitle("");
-          setDescription("");
-          setPriority("");
-          setStatus("");
+          setForm({
+            title: "",
+            description: "",
+            status: "todo",
+            priority: "low",
+          });
           close();
         },
       }
     );
+  };
+
+  const handleChange = (
+    field: keyof Omit<TaskCreateDto, "projectId">,
+    value: string
+  ) => {
+    setForm((prev) => ({ ...prev, [field]: value }));
   };
 
   return (
@@ -49,14 +61,14 @@ export function TaskForm({ projectId }: TaskFormProps) {
           <TextInput
             label="Title"
             required
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            value={form.title}
+            onChange={(e) => handleChange("title", e.currentTarget.value)}
             mb="sm"
           />
           <Textarea
             label="Description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
+            value={form.description}
+            onChange={(e) => handleChange("description", e.currentTarget.value)}
             mb="sm"
           />
           <Select
@@ -66,10 +78,8 @@ export function TaskForm({ projectId }: TaskFormProps) {
               { value: "in_progress", label: "In Progress" },
               { value: "done", label: "Done" },
             ]}
-            value={status}
-            onChange={(value) => {
-              if (value !== null) setStatus(value);
-            }}
+            value={form.status}
+            onChange={(value) => value && handleChange("status", value)}
             mb="sm"
           />
           <Select
@@ -79,10 +89,8 @@ export function TaskForm({ projectId }: TaskFormProps) {
               { value: "medium", label: "Medium" },
               { value: "high", label: "High" },
             ]}
-            value={priority}
-            onChange={(value) => {
-              if (value !== null) setPriority(value);
-            }}
+            value={form.priority}
+            onChange={(value) => value && handleChange("priority", value)}
             mb="sm"
           />
           <Button type="submit" fullWidth>
@@ -92,4 +100,6 @@ export function TaskForm({ projectId }: TaskFormProps) {
       </Modal>
     </>
   );
-}
+};
+
+export default TaskForm;

@@ -5,20 +5,20 @@ import { useNavigate } from "react-router-dom";
 // mantine components
 import {
   Button,
-  Container,
+  Title,
   Group,
+  Container,
   TextInput,
   PasswordInput,
-  Title,
 } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 
 // hooks
-import { useLogin } from "./hooks/login.hooks";
 import { useForm } from "@mantine/form";
+import { useLogin } from "@/features/login/hooks/login.hooks";
 
-// types
-import type { LoginRequest } from "@/types/auth";
+// models
+import type { LoginRequest } from "@/models/auth";
 
 export const Login = () => {
   // state
@@ -77,7 +77,7 @@ export const Login = () => {
   );
 
   return (
-    <Container size="xs" py="lg">
+    <Container size="xs" py="xs">
       <Title order={2} mb="md">
         Login
       </Title>
