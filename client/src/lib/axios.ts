@@ -1,15 +1,27 @@
+// axios
 import axios from "axios";
+import type { InternalAxiosRequestConfig } from "axios";
 
+const BASE_URL = "http://localhost:3000";
+
+console.log(BASE_URL);
+
+// create axios instance
 export const axiosInstance = axios.create({
-  baseURL: "http://localhost:3000", // Change to your API base URL
-  withCredentials: true, // If you use cookies/sessions
-  // You can add headers or interceptors here if needed
+  baseURL: BASE_URL,
+  withCredentials: true,
 });
 
-axiosInstance.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-});
+// attach token
+axiosInstance.interceptors.request.use(
+  (config: InternalAxiosRequestConfig) => {
+    const token = localStorage.getItem("token");
+
+    if (token && config.headers) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+
+    return config;
+  },
+  (error) => Promise.reject(error)
+);

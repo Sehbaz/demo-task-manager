@@ -163,7 +163,7 @@ export function ProjectPage() {
           <ProjectForm project={row.original} />
         )}
         mantineTableBodyRowProps={({ row }) => ({
-          onClick: () => navigate(`/projects/${row.original.id}`),
+          onClick: () => navigate(`/project/${row.original.id}`),
           style: { cursor: "pointer" },
         })}
       />
