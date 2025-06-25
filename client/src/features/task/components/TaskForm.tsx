@@ -55,8 +55,8 @@ export const TaskForm = ({ projectId }: TaskFormProps) => {
 
   return (
     <>
-      <Button onClick={open}>Create Project</Button>
-      <Modal opened={opened} onClose={close} title="Create Project" centered>
+      <Button onClick={open}>Add Task</Button>
+      <Modal opened={opened} onClose={close} title="Add Task" centered>
         <form onSubmit={handleSubmit}>
           <TextInput
             label="Title"

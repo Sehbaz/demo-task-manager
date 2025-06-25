@@ -87,14 +87,14 @@ export const ProjectForm = ({
     <>
       {triggerButton && (
         <Button onClick={open} style={{ marginBottom: 16 }}>
-          {project ? "Edit Project" : "Create"}Project
+          {project ? "Edit Project" : "Add Project"}
         </Button>
       )}
 
       <Modal
         opened={opened || !!project}
         onClose={close}
-        title={project ? "Edit Project" : "Create Project"}
+        title={project ? "Edit Project" : "Add Project"}
         centered
         size="md"
       >

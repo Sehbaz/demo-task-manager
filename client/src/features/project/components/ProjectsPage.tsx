@@ -119,10 +119,10 @@ export const ProjectsPage = () => {
   }
 
   return (
-    <Container size="xl" py="xl">
+    <Container size="md" py="xl">
       <Flex justify="space-between" align="center" mb="md">
         <h2>Projects</h2>
-        <Button variant="filled" onClick={handleLogout}>
+        <Button variant="light" color="red" onClick={handleLogout}>
           Logout
         </Button>
       </Flex>
