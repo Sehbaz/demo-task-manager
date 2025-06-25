@@ -77,7 +77,7 @@ export const Login = () => {
   );
 
   return (
-    <Container size="xs" py="xs">
+    <Container size="xs" py="md">
       <Title order={2} mb="md">
         Login
       </Title>
@@ -88,7 +88,7 @@ export const Login = () => {
           label="Email"
           placeholder="you@example.com"
           {...form.getInputProps("email")}
-          mb="sm"
+          mb="md"
         />
 
         <PasswordInput
@@ -96,11 +96,11 @@ export const Login = () => {
           label="Password"
           placeholder="Your password"
           {...form.getInputProps("password")}
-          mb="sm"
+          mb="md"
         />
 
         <Group justify="flex-end">
-          <Button type="submit" loading={loading}>
+          <Button type="submit" loading={loading} fullWidth>
             Login
           </Button>
         </Group>
