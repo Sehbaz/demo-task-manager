@@ -9,7 +9,7 @@ const bootstrap = async (): Promise<void> => {
   const app = await NestFactory.create(AppModule);
 
   app.enableCors({
-    origin: 'http://localhost:5173',
+    origin: ['http://localhost:5173', 'http://http://172.236.14.205:5173'],
     credentials: true,
   });
 
