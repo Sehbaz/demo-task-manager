@@ -75,7 +75,7 @@ export const TaskForm = ({ projectId }: TaskFormProps) => {
             label="Status"
             data={[
               { value: "todo", label: "To Do" },
-              { value: "in_progress", label: "In Progress" },
+              { value: "in progress", label: "In Progress" },
               { value: "done", label: "Done" },
             ]}
             value={form.status}

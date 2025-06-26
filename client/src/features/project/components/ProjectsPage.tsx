@@ -12,6 +12,7 @@ import {
   Tooltip,
   Text,
   ActionIcon,
+  Paper,
 } from "@mantine/core";
 import { MantineReactTable } from "mantine-react-table";
 import { modals } from "@mantine/modals";
@@ -129,69 +130,81 @@ export const ProjectsPage = () => {
 
       <ProjectForm />
 
-      <MantineReactTable
-        columns={columns}
-        data={data}
-        autoResetPageIndex={false}
-        enableRowOrdering
-        enableRowActions
-        enableSorting={false}
-        enableTopToolbar={false}
-        layoutMode="grid"
-        paginationDisplayMode="pages"
-        positionActionsColumn="last"
-        mantineTableBodyRowProps={({ row }) => ({
-          onClick: () => navigate(`/project/${row.original.id}`),
-          style: { cursor: "pointer" },
-        })}
-        renderRowActions={({ row, table }) => (
-          <Flex gap="md">
-            <Tooltip label="Edit">
-              <ActionIcon
-                onClick={(e) => {
-                  e.stopPropagation();
-                  table.setEditingRow(row);
-                }}
-              >
-                <IconEdit size={16} />
-              </ActionIcon>
-            </Tooltip>
-            <Tooltip label="Delete">
-              <ActionIcon
-                color="red"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  openDeleteConfirmModal(row);
-                }}
-              >
-                <IconTrash size={16} />
-              </ActionIcon>
-            </Tooltip>
-          </Flex>
-        )}
-        mantineRowDragHandleProps={({ table }) => ({
-          onDragEnd: () => {
-            const { draggingRow, hoveredRow } = table.getState();
-            if (
-              hoveredRow &&
-              draggingRow &&
-              typeof hoveredRow.index === "number" &&
-              typeof draggingRow.index === "number"
-            ) {
-              const newData = [...data];
-              newData.splice(
-                hoveredRow.index,
-                0,
-                newData.splice(draggingRow.index, 1)[0]
-              );
-              setData(newData);
-            }
-          },
-        })}
-        renderEditRowModalContent={({ row }) => (
-          <ProjectForm project={row.original} />
-        )}
-      />
+      {data.length === 0 ? (
+        <Paper withBorder p="md" mb="md">
+          <Text ta="center" c="dimmed">
+            No projects found. Maybe it's time to start one and become famous!
+          </Text>
+        </Paper>
+      ) : (
+        <MantineReactTable
+          columns={columns}
+          data={data}
+          autoResetPageIndex={false}
+          enableRowOrdering
+          enableRowActions
+          enableSorting={false}
+          enableTopToolbar={false}
+          layoutMode="grid"
+          paginationDisplayMode="pages"
+          positionActionsColumn="last"
+          mantineTableBodyRowProps={({ row }) => ({
+            onClick: () => navigate(`/project/${row.original.id}`),
+            style: { cursor: "pointer" },
+          })}
+          mantinePaginationProps={{
+            px: "md",
+            py: "sm",
+          }}
+          renderRowActions={({ row, table }) => (
+            <Flex gap="md">
+              <Tooltip label="Edit">
+                <ActionIcon
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    table.setEditingRow(row);
+                  }}
+                >
+                  <IconEdit size={16} />
+                </ActionIcon>
+              </Tooltip>
+              <Tooltip label="Delete">
+                <ActionIcon
+                  color="red"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    openDeleteConfirmModal(row);
+                  }}
+                >
+                  <IconTrash size={16} />
+                </ActionIcon>
+              </Tooltip>
+            </Flex>
+          )}
+          mantineRowDragHandleProps={({ table }) => ({
+            onDragEnd: () => {
+              const { draggingRow, hoveredRow } = table.getState();
+              if (
+                hoveredRow &&
+                draggingRow &&
+                typeof hoveredRow.index === "number" &&
+                typeof draggingRow.index === "number"
+              ) {
+                const newData = [...data];
+                newData.splice(
+                  hoveredRow.index,
+                  0,
+                  newData.splice(draggingRow.index, 1)[0]
+                );
+                setData(newData);
+              }
+            },
+          })}
+          renderEditRowModalContent={({ row }) => (
+            <ProjectForm project={row.original} />
+          )}
+        />
+      )}
     </Container>
   );
 };
