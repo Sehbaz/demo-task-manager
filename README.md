@@ -38,7 +38,7 @@ nila-task-manager/
 
 ---
 
-🧩 Tech Overview
+## Tech Overview
 
 ### Frontend (`/client`)
 
@@ -54,7 +54,7 @@ nila-task-manager/
 - JWT auth
 - Swagger UI at `/api`
 
-### 🔹 Monorepo & Deployment
+### Monorepo & Deployment
 
 - Docker Compose powered
 - Nginx reverse proxy unifies frontend and API
