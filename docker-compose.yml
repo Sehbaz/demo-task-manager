@@ -22,7 +22,7 @@ services:
     volumes:
       - ./client:/app
     environment:
-      - VITE_API_URL=/api
+      - VITE_API_URL=http://172.236.14.205:3000
 
   api:
     build:
