@@ -12,16 +12,16 @@ A full-stack project management tool built with **React (TypeScript + Mantine UI
 ---
 
 ## 📸 Screenshots
-
-<!-- Add screenshots here -->
-<!-- Example: ![Dashboard](./screenshots/dashboard.png) -->
+![screen](https://github.com/user-attachments/assets/0a07ea1b-d5cf-4a64-ad3c-7b75f4c4353a)
+![screen1](https://github.com/user-attachments/assets/2e9d99fd-6f7c-4395-843e-b5bd78a0a343)
+![screen3](https://github.com/user-attachments/assets/593e98d7-d041-4d0b-b68d-92a3a92dc684)
+![screen4](https://github.com/user-attachments/assets/91fc732f-e93a-4c0a-9b42-89086ac9e41a)
 
 ---
 
 ## 🎥 Demo
 
-<!-- Add demo video link here -->
-<!-- Example: [Watch Demo](https://youtu.be/your-demo-link) -->
+https://github.com/user-attachments/assets/bc88b18f-3fca-4736-9abf-31489b0a89b3
 
 ---
 
@@ -29,10 +29,10 @@ A full-stack project management tool built with **React (TypeScript + Mantine UI
 
 ```
 nila-task-manager/
-├── api/         # NestJS backend (Drizzle, TypeBox)
-├── client/      # React frontend (Mantine, React Query)
-├── nginx.conf   # Nginx reverse proxy config
-├── docker-compose.yml
+├── api/               # NestJS backend (Drizzle, TypeBox)
+├── client/            # React frontend (Mantine, React Query)
+├── nginx.conf         # Nginx reverse proxy config
+├── docker-compose.yml # Docker config
 └── README.md
 ```
 
