@@ -21,6 +21,8 @@ services:
       - api
     volumes:
       - ./client:/app
+    environment:
+      - VITE_API_URL=/api
 
   api:
     build:
