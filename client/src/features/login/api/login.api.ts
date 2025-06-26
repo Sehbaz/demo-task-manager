@@ -2,7 +2,7 @@
 import { axiosInstance } from "@/lib/axios";
 
 // models
-import type { LoginRequest, LoginResponse, User } from "@/models/auth";
+import type { LoginRequest, LoginResponse } from "@/models/auth";
 
 const TOKEN_KEY = "token";
 

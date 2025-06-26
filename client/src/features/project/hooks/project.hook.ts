@@ -8,7 +8,6 @@ import {
   fetchProjects,
   fetchProjectById,
   updateProject,
-  //  updateProject,
 } from "@/features/project/api/project.api";
 
 // models
@@ -16,7 +15,6 @@ import type {
   Project,
   ProjectCreateDto,
   ProjectUpdateDto,
-  // ProjectUpdateDto,
 } from "@/models/project";
 import type { UseMutationOptions } from "@tanstack/react-query";
 
@@ -48,7 +46,6 @@ export const useCreateProject = (
   });
 };
 
-// Update an existing project
 export const useUpdateProject = (
   options?: UseMutationOptions<
     Project,

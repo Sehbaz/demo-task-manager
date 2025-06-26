@@ -46,7 +46,6 @@ export const ProjectsPage = () => {
   }, [projects]);
 
   // methods
-
   const handleLogout = useCallback(() => {
     localStorage.removeItem("jwt_token");
     window.location.href = "/login";

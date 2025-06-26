@@ -1,9 +1,9 @@
 // react
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 // types
 import type { UseMutationOptions } from "@tanstack/react-query";
-import type { LoginRequest, LoginResponse, User } from "@/models/auth";
+import type { LoginRequest, LoginResponse } from "@/models/auth";
 
 // api
 import { login, logout } from "@/features/login/api/login.api";
@@ -32,9 +32,3 @@ export const useLogout = () => {
     qc.removeQueries({ queryKey: ["me"] });
   };
 };
-
-// export const useCurrentUser = () =>
-//   useQuery<User | null>({
-//     queryKey: ["me"],
-//     queryFn: getCurrentUser,
-//   });
