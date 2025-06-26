@@ -2,7 +2,7 @@
 import { axiosInstance } from "@/lib/axios";
 
 // models
-import type { Task, TaskCreateDto } from "@/models/task";
+import type { Task, TaskCreateDto, TaskUpdateDto } from "@/models/task";
 
 export const fetchTasks = async (projectId: number): Promise<Task[]> => {
   const { data } = await axiosInstance.get<Task[]>(
@@ -16,6 +16,14 @@ export const createTask = async (task: TaskCreateDto): Promise<Task> => {
     `/tasks/project/${task.projectId}`,
     task
   );
+  return data;
+};
+
+export const updateTask = async (
+  id: number,
+  task: TaskUpdateDto
+): Promise<Task> => {
+  const { data } = await axiosInstance.put<Task>(`/tasks/${id}`, task);
   return data;
 };
 

@@ -10,9 +10,10 @@ import {
   UseGuards,
   HttpCode,
   HttpStatus,
+  Put,
 } from '@nestjs/common';
 import { TaskService } from './task.service';
-import { CreateTaskDto } from './task.dto';
+import { CreateTaskDto, UpdateTaskDto } from './task.dto';
 import {
   ApiTags,
   ApiResponse,
@@ -46,6 +47,16 @@ export class TaskController {
   ) {
     const task = await this.taskService.create(dto);
     return task;
+  }
+
+  @Put(':id')
+  @ApiOperation({ summary: 'Update a task by id' })
+  @ApiResponse({ status: 200, description: 'Task updated.' })
+  async update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: UpdateTaskDto,
+  ) {
+    return this.taskService.update(id, dto);
   }
 
   @Delete(':id')

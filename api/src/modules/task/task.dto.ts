@@ -39,3 +39,6 @@ export const CreateTaskSchema = Type.Object({
 
 export type Task = Static<typeof TaskSchema>;
 export type CreateTaskDto = Static<typeof CreateTaskSchema>;
+
+export const UpdateTaskSchema = Type.Partial(TaskSchema);
+export type UpdateTaskDto = Static<typeof UpdateTaskSchema>;

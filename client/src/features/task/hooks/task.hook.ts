@@ -6,6 +6,7 @@ import {
   createTask,
   deleteTask,
   fetchTasks,
+  updateTask,
 } from "@/features/task/api/task.api";
 
 // models
@@ -26,6 +27,22 @@ export const useCreateTask = () => {
     onSuccess: (_data, variables) => {
       qc.invalidateQueries({
         queryKey: ["tasks", variables.projectId],
+      });
+    },
+  });
+};
+
+export const useUpdateTask = () => {
+  const qc = useQueryClient();
+  return useMutation<
+    Task,
+    Error,
+    { id: number; data: TaskCreateDto & { projectId: number } }
+  >({
+    mutationFn: ({ id, data }) => updateTask(id, data),
+    onSuccess: (_data, variables) => {
+      qc.invalidateQueries({
+        queryKey: ["tasks", variables.data.projectId],
       });
     },
   });

@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { TaskRepository } from './task.repository';
-import { Task, CreateTaskDto } from './task.dto';
+import { Task, CreateTaskDto, UpdateTaskDto } from './task.dto';
 
 @Injectable()
 export class TaskService {
@@ -25,7 +25,7 @@ export class TaskService {
     return this.taskRepo.create(task);
   }
 
-  update(id: number, task: CreateTaskDto): Promise<Task | null> {
+  update(id: number, task: UpdateTaskDto): Promise<Task | null> {
     return this.taskRepo.update(id, task);
   }
 

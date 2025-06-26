@@ -1,7 +1,11 @@
 // react
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { useDeleteTask, useTasks } from "@/features/task/hooks/task.hook";
+import {
+  useDeleteTask,
+  useTasks,
+  useUpdateTask,
+} from "@/features/task/hooks/task.hook";
 
 // hooks
 import { useProject } from "@/features/project/hooks/project.hook";
@@ -36,6 +40,7 @@ export const ProjectDetailPage = () => {
   const { id } = useParams();
   const projectId = Number(id) || 0;
   const deleteTask = useDeleteTask();
+  const updateTask = useUpdateTask();
   const { data: tasks } = useTasks(projectId);
   const { data: project, isLoading } = useProject(projectId);
 
@@ -170,6 +175,16 @@ export const ProjectDetailPage = () => {
               </Tooltip>
             </Flex>
           )}
+          onEditingRowSave={async ({ values, table }) => {
+            await updateTask.mutateAsync({
+              id: project?.id || 0,
+              data: {
+                ...values,
+                projectId,
+              },
+            });
+            table.setEditingRow(null);
+          }}
           mantineRowDragHandleProps={({}) => ({
             onDragEnd: () => {
               // NOTE:Here drag and drop implementation will go

@@ -14,3 +14,11 @@ export interface TaskCreateDto {
   priority: string;
   projectId: number;
 }
+
+export interface TaskUpdateDto {
+  title: string;
+  description: string;
+  status: string;
+  priority: string;
+  projectId: number;
+}
