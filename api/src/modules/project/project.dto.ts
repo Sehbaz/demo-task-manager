@@ -14,3 +14,6 @@ export const CreateProjectSchema = Type.Object({
 
 export type Project = Static<typeof ProjectSchema>;
 export type CreateProjectDto = Static<typeof CreateProjectSchema>;
+
+export const UpdateProjectSchema = Type.Partial(CreateProjectSchema);
+export type UpdateProjectDto = Static<typeof UpdateProjectSchema>;

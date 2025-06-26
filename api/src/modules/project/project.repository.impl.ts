@@ -1,7 +1,7 @@
 import { eq } from 'drizzle-orm';
 import { db } from '../../drizzle';
 import { projects, tasks } from '../../drizzle/schema';
-import { Project, CreateProjectDto } from './project.dto';
+import { Project, CreateProjectDto, UpdateProjectDto } from './project.dto';
 import { ProjectRepository } from './project.repository';
 
 export class DrizzleProjectRepository implements ProjectRepository {
@@ -59,7 +59,7 @@ export class DrizzleProjectRepository implements ProjectRepository {
     return this.clean({ ...newProject, tasks: [] });
   }
 
-  async update(id: number, project: CreateProjectDto): Promise<Project | null> {
+  async update(id: number, project: UpdateProjectDto): Promise<Project | null> {
     const [updatedProject] = await db
       .update(projects)
       .set(project)

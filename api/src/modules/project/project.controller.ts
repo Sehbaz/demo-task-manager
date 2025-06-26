@@ -11,7 +11,7 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { ProjectService } from './project.service';
-import { CreateProjectDto } from './project.dto';
+import { CreateProjectDto, UpdateProjectDto } from './project.dto';
 import {
   ApiTags,
   ApiResponse,
@@ -49,7 +49,7 @@ export class ProjectController {
   @Put(':id')
   @ApiOperation({ summary: 'Update a project' })
   @ApiResponse({ status: 200, description: 'Project updated.' })
-  update(@Param('id', ParseIntPipe) id: number, @Body() dto: CreateProjectDto) {
+  update(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateProjectDto) {
     return this.projectService.update(id, dto);
   }
 

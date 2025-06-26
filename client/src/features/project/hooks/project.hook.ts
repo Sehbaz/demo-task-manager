@@ -7,6 +7,7 @@ import {
   deleteProject,
   fetchProjects,
   fetchProjectById,
+  updateProject,
   //  updateProject,
 } from "@/features/project/api/project.api";
 
@@ -14,6 +15,7 @@ import {
 import type {
   Project,
   ProjectCreateDto,
+  ProjectUpdateDto,
   // ProjectUpdateDto,
 } from "@/models/project";
 import type { UseMutationOptions } from "@tanstack/react-query";
@@ -46,26 +48,26 @@ export const useCreateProject = (
   });
 };
 
-// // Update an existing project
-// export const useUpdateProject = (
-//   options?: UseMutationOptions<
-//     Project,
-//     Error,
-//     { id: number; project: ProjectUpdateDto }
-//   >
-// ) => {
-//   const qc = useQueryClient();
-//   return useMutation<Project, Error, { id: number; project: ProjectUpdateDto }>(
-//     {
-//       mutationFn: () => {},
-//       onSuccess: (...args) => {
-//         qc.invalidateQueries({ queryKey: ["projects"] });
-//         options?.onSuccess?.(...args);
-//       },
-//       ...options,
-//     }
-//   );
-// };
+// Update an existing project
+export const useUpdateProject = (
+  options?: UseMutationOptions<
+    Project,
+    Error,
+    { id: number; project: ProjectUpdateDto }
+  >
+) => {
+  const qc = useQueryClient();
+  return useMutation<Project, Error, { id: number; project: ProjectUpdateDto }>(
+    {
+      mutationFn: ({ id, project }) => updateProject(id, project),
+      onSuccess: (...args) => {
+        qc.invalidateQueries({ queryKey: ["projects"] });
+        options?.onSuccess?.(...args);
+      },
+      ...options,
+    }
+  );
+};
 
 export const useDeleteProject = (
   options?: UseMutationOptions<void, Error, number>

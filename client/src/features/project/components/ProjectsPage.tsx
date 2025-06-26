@@ -29,6 +29,7 @@ import {
 
 // components
 import { ProjectForm } from "./ProjectForm";
+import { updateProject } from "../api/project.api";
 
 export const ProjectsPage = () => {
   // state
@@ -200,9 +201,14 @@ export const ProjectsPage = () => {
               }
             },
           })}
-          renderEditRowModalContent={({ row }) => (
-            <ProjectForm project={row.original} />
-          )}
+          onEditingRowSave={async ({ values, row, table }) => {
+            const projectUpdate: { title: string; description?: string } = {
+              title: values.title,
+              description: values.description,
+            };
+            await updateProject(row.original.id, projectUpdate);
+            table.setEditingRow(null);
+          }}
         />
       )}
     </Container>

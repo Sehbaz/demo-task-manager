@@ -1,6 +1,6 @@
 import { Injectable, Inject, NotFoundException } from '@nestjs/common';
 import { ProjectRepository } from './project.repository';
-import { Project, CreateProjectDto } from './project.dto';
+import { Project, CreateProjectDto, UpdateProjectDto } from './project.dto';
 
 @Injectable()
 export class ProjectService {
@@ -23,7 +23,7 @@ export class ProjectService {
     return this.projectRepo.create(dto);
   }
 
-  async update(id: number, dto: CreateProjectDto): Promise<Project> {
+  async update(id: number, dto: UpdateProjectDto): Promise<Project> {
     const updated = await this.projectRepo.update(id, dto);
     if (!updated) throw new NotFoundException('Project not found');
     return updated;
