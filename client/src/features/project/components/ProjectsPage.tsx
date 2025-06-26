@@ -60,8 +60,7 @@ export const ProjectsPage = () => {
         title: "Delete Project",
         children: (
           <Text>
-            Are you sure you want to delete <b>{title}</b>? This action cannot
-            be undone.
+            Are you sure you want to delete <b>{title}</b>?
           </Text>
         ),
         labels: { confirm: "Delete", cancel: "Cancel" },

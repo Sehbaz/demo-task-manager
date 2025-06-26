@@ -75,13 +75,8 @@ export const ProjectDetailPage = () => {
 
   const openDeleteConfirmModal = (row: any) =>
     modals.openConfirmModal({
-      title: "Are you sure you want to delete this user?",
-      children: (
-        <Text>
-          Are you sure you want to delete {row.original.firstName}{" "}
-          {row.original.lastName}? This action cannot be undone.
-        </Text>
-      ),
+      title: "Delete Task",
+      children: <Text>Are you sure you want to delete this task?</Text>,
       labels: { confirm: "Delete", cancel: "Cancel" },
       confirmProps: { color: "red" },
       onConfirm: () => {
