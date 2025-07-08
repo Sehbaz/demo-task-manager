@@ -5,13 +5,6 @@ Built as part of a **Full-Stack Developer Take-Home Assignment** to demonstrate 
 
 ---
 
-## 🚀 Hosted Links
-
-- **Frontend**: [App](http://172.236.14.205:8080/)
-- **API Docs (Swagger)**: [Swagger](http://172.236.14.205:8080/api)
-
----
-
 ## 📸 Screenshots
 
 ![screen](https://github.com/user-attachments/assets/0a07ea1b-d5cf-4a64-ad3c-7b75f4c4353a)
