@@ -23,7 +23,7 @@ https://github.com/user-attachments/assets/bc88b18f-3fca-4736-9abf-31489b0a89b3
 ## 🏗️ Project Structure
 
 ```
-nila-task-manager/
+demo-task-manager/
 ├── api/               # NestJS backend (Drizzle, TypeBox)
 ├── client/            # React frontend (Mantine, React Query)
 ├── nginx.conf         # Nginx reverse proxy config
@@ -59,8 +59,8 @@ nila-task-manager/
 ### 2. Clone & Setup
 
 ```bash
-git clone https://github.com/your-username/nila-task-manager.git
-cd nila-task-manager
+git clone https://github.com/your-username/demo-task-manager.git
+cd demo-task-manager
 ```
 
 ### 3. Start the App
