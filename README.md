@@ -1,4 +1,4 @@
-# Nila Task Manager
+#  Task Manager
 
 A lightweight project and task management app inspired by tools like Linear and Asana.
 Built as part of a **Full-Stack Developer Take-Home Assignment** to demonstrate clean architecture, thoughtful decisions and effective use of the given tech stack.
