@@ -74,6 +74,13 @@ docker-compose up --build
 
 ---
 
+## 📖 Documentation
+
+### [What Are Agents?](./docs/AGENTS.md)
+Learn about software agents, AI agents, and how they can enhance task management systems with automation, intelligence, and improved user experience.
+
+---
+
 ## 🧪 Testing
 
 ```bash
